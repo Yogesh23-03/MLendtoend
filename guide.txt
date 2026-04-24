@@ -1,0 +1,2 @@
+conda create -p venv python==3.8 -y to creating the environment
+conda activate venv/ to activate 
