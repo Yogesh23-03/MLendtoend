@@ -1,2 +1,5 @@
 conda create -p venv python==3.8 -y to creating the environment
 conda activate venv/ to activate 
+normal push the code to github
+create the gitignore and pull
+create requirements and setup files 
