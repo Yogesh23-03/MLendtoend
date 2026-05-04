@@ -7,4 +7,5 @@ tensorflow
 keras
 catboost
 xgboost
+Flask
 -e .
