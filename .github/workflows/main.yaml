@@ -3,30 +3,27 @@ name: Build and Push Docker Image to Amazon ECR
 on:
   push:
     branches: [ "main" ]
-    
+
 jobs:
   build-and-push:
-    name: Build and Push to ECR
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ap-southeast-2
 
-      - name: Login to Amazon ECR
+      - id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build Docker image
         run: |
-          docker build -t "${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest" .
+          docker build -t "${{ steps.login-ecr.outputs.registry }}/student-performance:latest" .
 
-      - name: Push Docker image to Amazon ECR
+      - name: Push Docker image
         run: |
-          docker push "${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
+          docker push "${{ steps.login-ecr.outputs.registry }}/student-performance:latest"
