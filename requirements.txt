@@ -8,4 +8,4 @@ keras
 catboost
 xgboost
 Flask
--e .
+
